@@ -56,4 +56,125 @@
         
         <label style="color:#d63384; margin-left:5px;">💤 Κοιμάμε από:</label>
         <select id="sleep_from" class="sleep-select">
-            <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:
+            <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option>
+        </select>
+        <label style="color:#d63384;">έως:</label>
+        <select id="sleep_to" class="sleep-select">
+            <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7" selected>07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option>
+        </select>   
+        <label style="margin-left:10px; background:#fce4ec; padding:2px 5px; border-radius:4px;">
+            <input type="checkbox" id="no_sleep"> <b>Δεν κοιμάμαι</b>
+        </label>
+    </div>
+
+    <div style="width: 100%; text-align: center; margin: 15px 0;">
+        <details style="display: inline-block; cursor: pointer;">
+            <summary style="font-size: 14px; color: #3e2723; font-weight: bold; list-style: none;">
+                Πινω ☕️ και δεν κοιμάμαι .[ο Διονύσης <span style="color: #0000FF; text-decoration: underline;">κατσίτες</span> θα σας πάει εσωτερικό]
+            </summary>
+            <div style="font-size: 13px; color: #5d2e0d; margin-top: 5px; line-height: 1.5; background: #fff; border: 1px solid #3129c2; padding: 10px; border-radius: 5px; display: inline-block; text-align: left;">
+                Adrenaline<br>Evolution<br>Biohazard<br>Propellas<br>Lord Tristan<br>
+                Noriega<br>Astatos87<br>Βουβουζελας<br>El mataror<br>Mikros kleftis<br>
+                Sleepycow<br>Tourbinas<br>Cyfitilas96<br>Bye bye girls
+            </div>
+        </details>
+    </div>
+
+    <div style="display:flex; gap:12px;">
+        <div style="flex:1;"><textarea id="sources" oninput="autoCoord(this)" placeholder="Nukes"></textarea></div>
+        <div style="flex:1;"><textarea id="targets" oninput="autoCoord(this)" placeholder="Στόχοι"></textarea></div>
+    </div>
+    <button class="btn-calc" onclick="calculatePlan()">ΦΤΙΑΞΕ ΠΛΑΝΟ & ΤΑΞΙΝΟΜΗΣΕ</button>
+    <button id="copyBtn" class="btn-copy" onclick="copyToClipboard()">📑 ΑΝΤΙΓΡΑΦΗ BB-CODE</button>
+    <div id="spoiler" style="display:none; margin-top:15px;"><div id="results_table"></div></div>
+    <div class="footer-gemini">✨Βοηθάει ο Gemini 3 AI</div>
+</div>
+<audio id="alertSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+
+<script>
+function autoCoord(el) {
+    let val = el.value.replace(/[^0-9\n|]/g, '');
+    let lines = val.split('\n');
+    let newLines = lines.map(line => {
+        let clean = line.replace(/[^0-9]/g, '');
+        if (clean.length === 6 && !line.includes('|')) return clean.substring(0, 3) + '|' + clean.substring(3, 6) + '\n';
+        return line;
+    });
+    el.value = newLines.join('\n').replace(/\n\n/g, '\n');
+}
+
+function updateServerTime() {
+    var t = new Date();
+    document.getElementById('date_display').innerHTML = "Ώρα server: " + ("0" + t.getHours()).slice(-2) + ":" + ("0" + t.getMinutes()).slice(-2) + ":" + ("0" + t.getSeconds()).slice(-2);
+}
+setInterval(updateServerTime, 1000);
+
+$(function() { 
+    $('#datetimepicker').datetimepicker({ dateFormat: 'dd/mm/yy', timeFormat: 'HH:mm:ss' }); 
+    $('#datetimepicker').datetimepicker('setDate', new Date()); 
+});
+
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'INPUT') {
+        e.preventDefault();
+        const alertBox = document.getElementById('custom-alert');
+        alertBox.style.display = 'block';
+        setTimeout(function() { alertBox.style.display = 'none'; }, 2000);
+    }
+}, false);
+
+function calculatePlan() {
+    const hitTimeStr = $('#datetimepicker').val();
+    const parts = hitTimeStr.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/);
+    const hitTimeMs = new Date(parts[3], parts[2]-1, parts[1], parts[4], parts[5], parts[6]).getTime();
+    
+    const unitValue = parseFloat($('#unit').val());
+    const unitIcon = unitValue === 9 ? "spy" : (unitValue === 35 ? "snob" : (unitValue === 10 ? "knight" : (unitValue === 11 ? "heavy" : (unitValue === 18 ? "spear" : (unitValue === 22 ? "sword" : "ram")))));    
+    const msPerField = (unitValue / (parseFloat($('#world_speed').val()) * parseFloat($('#unit_speed').val()))) * 60 * 1000;
+    
+    const sources = $('#sources').val().trim().split('\n'), targets = $('#targets').val().trim().split('\n');
+    const sFrom = parseInt($('#sleep_from').val()), sTo = parseInt($('#sleep_to').val());
+    const isNoSleep = $('#no_sleep').is(':checked');
+    let attacks = [];
+
+    sources.forEach(s => {
+        targets.forEach(t => {
+            const sC = s.match(/(\d+)\|(\d+)/), tC = t.match(/(\d+)\|(\d+)/);
+            if (sC && tC) {
+                const dist = Math.sqrt(Math.pow(sC[1]-tC[1], 2) + Math.pow(sC[2]-tC[2], 2));
+                const lMs = hitTimeMs - (dist * msPerField);
+                const d = new Date(lMs);
+                const lHour = d.getHours();
+                if (!isNoSleep && (lHour >= sFrom && lHour < sTo)) return;
+                const lStr = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2) + " " + ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2);
+                attacks.push({ from: s.trim(), to: t.trim(), lMs: lMs, lStr: lStr });
+            }
+        });
+    });
+
+    attacks.sort((a, b) => a.lMs - b.lMs);
+    let tableHtml = `<table class="vis-table"><tr><th>Από</th><th>Προς</th><th>Εκκίνηση</th></tr>`;
+    let bb = "";
+    attacks.forEach((att) => {
+        tableHtml += `<tr><td>${att.from}</td><td>${att.to}</td><td class="launch-time">${att.lStr}</td></tr>`;
+        bb += `[unit]${unitIcon}[/unit] [coord]${att.from}[/coord] -> [coord]${att.to}[/coord] | [b][color=#ff0000]${att.lStr}[/color][/b]\n`;
+    });
+    $('#results_table').html(tableHtml + "</table>");
+    $('#bbcopy').remove(); $('body').append(`<textarea id="bbcopy" style="display:none;">${bb}</textarea>`);
+    $('#spoiler').show(); $('#copyBtn').show();
+    document.getElementById('alertSound').play();
+}
+
+function copyToClipboard() {
+    var c = document.getElementById("bbcopy"); 
+    c.style.display = "block"; 
+    c.select(); 
+    document.execCommand("copy"); 
+    c.style.display = "none";
+    var btn = document.getElementById("copyBtn"); 
+    btn.innerHTML = "✅ ΑΝΤΙΓΡΑΦΗΚΕ!"; 
+    setTimeout(function(){ btn.innerHTML = "📑 ΑΝΤΙΓΡΑΦΗ BB-CODE"; }, 2000);
+}
+</script>
+</body>
+</html>
