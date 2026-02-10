@@ -175,6 +175,34 @@ function copyToClipboard() {
     btn.innerHTML = "✅ ΑΝΤΙΓΡΑΦΗΚΕ!"; 
     setTimeout(function(){ btn.innerHTML = "📑 ΑΝΤΙΓΡΑΦΗ BB-CODE"; }, 2000);
 }
+window.onload = function() {
+    var secretKey = "5555"; 
+    var entry = prompt("Εισάγετε τον κωδικό πρόσβασης για το Attact Planer:");
+    
+    if (entry === secretKey) {
+        document.getElementById("protected-content").style.display = "block";
+    } else {
+        // Εμφάνιση του κόκκινου popup με το δικό σου μήνυμα
+        const alertBox = document.getElementById('custom-alert');
+        alertBox.innerHTML = "ΑΠΑΓΟΡΕΥΕΤΑΙ Η ΠΡΟΣΒΑΣΗ σε κατσιτες!<br>Επικοινωνήστε μαζί μου να πάρετε κωδικό.";
+        alertBox.style.display = 'block';
+        
+        // Μαύρισμα της σελίδας από πίσω
+        document.body.style.backgroundColor = "#0a0a0a";
+        document.body.innerHTML = `
+            <div style="text-align:center; margin-top:120px; font-family: 'Segoe UI', Arial, sans-serif; padding: 20px;">
+                <h1 style="color: #8b0000; font-size: 65px; text-shadow: 3px 3px 5px #000; margin-bottom: 10px;">⚠️ ALERT ⚠️</h1>
+                <h2 style="color: #dddddd; font-size: 28px; letter-spacing: 1px;">Λάθος Κωδικός Πρόσβασης</h2>
+                <p style="color: #B33024; font-size: 18px; margin-top: 20px;">
+                    Η πρόσβαση στο <strong>Attact Planer</strong> είναι περιορισμένη.
+                </p>
+                <hr style="width:40%; border: 0; height: 2px; background: linear-gradient(to right, transparent, #8b0000, transparent); margin-top: 30px;">
+            </div>`;
+            
+        // Ξαναεμφανίζουμε το popup πάνω από το μαύρο φόντο
+        document.body.appendChild(alertBox);
+    }
+};
 </script>
 </body>
 </html>
