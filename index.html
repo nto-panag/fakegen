@@ -37,31 +37,29 @@
         <h2 style="text-align: center; font-size: 14px; color: #5d2e0d; margin-top: 0;">Επικόλληση λίστας χωριών από το profil, παιχνίδι control+V(Φιλτράρει μόνο συντεταγμένες)</h2>
         <h2 style="text-align: center; font-size: 14px; color: #5d2e0d; margin-top: 0;">Επικόλληση απο mapscript ή με το χέρι 6 αριθμούς (προσθετει το |)</h2>
 		
-
-        <div class="inline-row">
+<div class="inline-row">
             <label>Άφιξη:</label><input type="text" id="datetimepicker" style="width:130px;" readonly>
             <label>Μονάδα:</label>
             <select id="unit">
                 <option value="35">Αριστοκράτης</option>
-                <option value="30">Κριός</option>
+                <option value="30" selected>Κριός</option>
                 <option value="9">Ανιχνευτής</option>
                 <option value="11">Βαρύ</option>
                 <option disabled>──────────</option>
                 <option value="10">Παλαντίν</option>
                 <option value="18">Δόρυ</option>
                 <option value="22">Ξίφος</option>
-				<option value="11">Βαρύ</option>
             </select>
             <label>Κ:</label><input type="text" id="world_speed" class="small-input" value="1.2">
             <label>Μ:</label><input type="text" id="unit_speed" class="small-input" value="0.8">
             
-            <label style="color:#d63384; margin-left:5px;">💤 Ύπνος:</label>
+            <label style="color:#d63384; margin-left:5px;">💤 Ύπνος από:</label>
             <select id="sleep_from" class="sleep-select">
-                <option value="0">00:00</option><option value="1">01:00</option><option value="2">00:00</option><option value="3" selected>24:00</option>
+                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option><option value="24">24:00</option>
             </select>
             <label style="color:#d63384;">έως:</label>
             <select id="sleep_to" class="sleep-select">
-                <option value="7" selected>00:00</option><option value="8">00:00</option><option value="9">24:00</option>
+                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7" selected>07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option><option value="24">24:00</option>
             </select>   
             <label style="margin-left:10px; background:#fce4ec; padding:2px 5px; border-radius:4px;">
                 <input type="checkbox" id="no_sleep"> <b>Δεν κοιμάμαι</b>
