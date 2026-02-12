@@ -1,158 +1,47 @@
-<!DOCTYPE html>
-<html lang="el">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Attact Planer - SCR Special Edition</title>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
-    <style>
-        body { background-image: url('bg-tile.jpg'); background-repeat: repeat; color: #3e2723; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px; font-size: 16px; } 
-        .container { max-width: 1150px; margin: auto; background: rgba(252, 244, 230, 0.96); padding: 15px; border: 2px solid #8b4513; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header-feng { text-align: center; margin-bottom: 5px; }
-        .header-feng h1 { color: #8b4513; margin: 0; font-size: 28px; }
-        .header-feng h1 span.vivi { color: #ff0000; font-weight: bold; }
-        #date_display { text-align: center; font-weight: bold; font-size: 24px; color: #8b0000; margin-bottom: 15px; }
-        .inline-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; border-top: 2px solid #8b4513; padding-top: 10px; font-weight: bold; font-size: 13px; flex-wrap: wrap; }
-        .small-input { width: 35px !important; text-align: center; border: 1px solid #8b4513; }
-        .sleep-select { border: 1px solid #d63384; background: #fff0f5; font-weight: bold; color: #d63384; border-radius: 4px; }
-        textarea { width: 100%; height: 115px; border: 1px solid #8b4513; font-family: monospace; font-size: 16px; padding: 10px; box-sizing: border-box; }
-        .btn-calc { background-color: #43b581; color: white; padding: 14px; border: 1px solid #274d32; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold; font-size: 18px; margin-top: 10px; }
-        .btn-copy { background-color: #8b4513; color: white; padding: 12px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 8px; display: none; }
-        .vis-table { width: 100%; border-collapse: collapse; }
-        .vis-table th, .vis-table td { border: 1px solid #7d5d3b; padding: 8px; text-align: center; }
-        .launch-time { color: #ff0000; font-weight: bold; }
-        .footer-gemini { text-align: center; margin-top: 18px; font-size: 14px; font-weight: bold; color: #5d2e0d; border-top: 3px dashed #8b4513; padding-top: 15px; }
-        #custom-alert { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #8b0000; color: white; padding: 20px; border: 3px solid #ff0000; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.5); z-index: 10000; font-weight: bold; text-align: center; font-size: 18px; }
-    </style>
-</head>
-<body oncontextmenu="return false;">
-<div id="custom-alert">κατσίτη Απαγορεύεται η κατασκοπεία! ⚔️</div>
-<div id="protected-content" style="display:none;">
-    <div class="container">
-        <div class="header-feng"><h1>Attact + fake plan by feng <span class="vivi">for SCR</span></h1><p>Βασισμένο στον κώδικα της Sophie (Shinko to Kuma)</p></div>
-        <div id="date_display"></div>
-        <h2 style="text-align: center; font-size: 14px; color: #5d2e0d; margin-top: 0;">Επικόλληση λίστας χωριών από το profil, παιχνίδι control+V(Φιλτράρει μόνο συντεταγμένες)</h2>
-        <h2 style="text-align: center; font-size: 14px; color: #5d2e0d; margin-top: 0;">Επικόλληση απο mapscript ή με το χέρι 6 αριθμούς (προσθετει το |)</h2>
-        <div class="inline-row">
-            <label>Άφιξη:</label><input type="text" id="datetimepicker" style="width:130px;" readonly>
-            <label>Μονάδα:</label>
-            <select id="unit">
-                <option value="35">Αριστοκράτης</option>
-                <option value="30" selected>Κριός</option>
-                <option value="9">Ανιχνευτής</option>
-                <option value="11">Βαρύ</option>
-                <option disabled>──────────</option>
-                <option value="10">Παλαντίν</option>
-                <option value="18">Δόρυ</option>
-                <option value="22">Ξίφος</option>
-            </select>
-            <label>Κ:</label><input type="text" id="world_speed" class="small-input" value="1.2">
-            <label>Μ:</label><input type="text" id="unit_speed" class="small-input" value="0.8">
-            
-            <label style="color:#d63384; margin-left:5px;">💤 Ύπνος από:</label>
-            <select id="sleep_from" class="sleep-select">
-                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option><option value="24">24:00</option>
-            </select>
-            <label style="color:#d63384;">έως:</label>
-            <select id="sleep_to" class="sleep-select">
-                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option><option value="24">24:00</option>
-            </select>   
-            <label style="margin-left:10px; background:#fce4ec; padding:2px 5px; border-radius:4px;">
-                <input type="checkbox" id="no_sleep"> <b>Δεν κοιμάμαι</b>
-            </label>
-        </div>
-
-        <div style="display:flex; gap:12px;">
-            <div style="flex:1;"><textarea id="sources" oninput="autoCoord(this)" placeholder="Nukes"></textarea></div>
-            <div style="flex:1;"><textarea id="targets" oninput="autoCoord(this)" placeholder="Στόχοι"></textarea></div>
-        </div>
-        <button class="btn-calc" onclick="calculatePlan()">ΦΤΙΑΞΕ ΠΛΑΝΟ</button>
-        <button id="copyBtn" class="btn-copy" onclick="copyToClipboard()">📑 ΑΝΤΙΓΡΑΦΗ BB-CODE</button>
-        <div id="spoiler" style="display:none; margin-top:15px;"><div id="results_table"></div></div>
-        <div class="footer-gemini">✨ Βοηθάει ο <a href="https://gemini.google.com" target="_blank" style="color: #5d2e0d; text-decoration: underline; font-weight: bold;">Gemini 3 AI</a></div>
-    </div>
-</div>
-
-<script>
-function autoCoord(el) {
-    let raw = el.value;
-    raw = raw.replace(/\b(\d{3})(\d{3})\b/g, '$1|$2');
-    let matches = raw.match(/\d{1,3}\|\d{1,3}/g);
-    if (matches) {
-        el.value = matches.join('\n');
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>FakeGen2 - Hidden Entry</title>
+<style>
+    /* Εδώ αλλάζεις το background color */
+    body { 
+        background-color: #1a1a1a; /* Σκούρο ανθρακί */
+        color: #FFBF00; /* Χρυσαφί γράμματα για να φαίνονται */
+        text-align: center; 
+        font-family: Arial, sans-serif; 
+        padding-top: 50px; 
     }
-}
+    
+    img { border: 2px solid #333; box-shadow: 0px 0px 20px rgba(0,0,0,0.5); }
+    
+    /* Εδώ μεγαλώνουμε τα γράμματα */
+    .warning-text {
+        font-size: 24px; /* Πιο μεγάλο μέγεθος */
+        font-weight: bold;
+        margin-top: 20px;
+        font-style: italic;
+    }
 
-function updateServerTime() {
-    var t = new Date();
-    document.getElementById('date_display').innerHTML = "Ώρα server: " + ("0" + t.getHours()).slice(-2) + ":" + ("0" + t.getMinutes()).slice(-2) + ":" + ("0" + t.getSeconds()).slice(-2);
-}
-setInterval(updateServerTime, 1000);
+    area { outline: none; }
+</style>
+</head>
 
-$(function() { 
-    $('#datetimepicker').datetimepicker({ dateFormat: 'dd/mm/yy', timeFormat: 'HH:mm:ss' }); 
-    $('#datetimepicker').datetimepicker('setDate', new Date()); 
-});
+<body oncontextmenu="return false;">
 
-function calculatePlan() {
-    const hitTimeStr = $('#datetimepicker').val();
-    const parts = hitTimeStr.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/);
-    const hitTimeMs = new Date(parts[3], parts[2]-1, parts[1], parts[4], parts[5], parts[6]).getTime();
-    const unitValue = parseFloat($('#unit').val());
-    const unitIcon = unitValue === 9 ? "spy" : (unitValue === 35 ? "snob" : (unitValue === 10 ? "knight" : (unitValue === 11 ? "heavy" : (unitValue === 18 ? "spear" : (unitValue === 22 ? "sword" : "ram")))));    
-    const msPerField = (unitValue / (parseFloat($('#world_speed').val()) * parseFloat($('#unit_speed').val()))) * 60 * 1000;
-    const sources = $('#sources').val().trim().split('\n'), targets = $('#targets').val().trim().split('\n');
-    const sFrom = parseInt($('#sleep_from').val()), sTo = parseInt($('#sleep_to').val());
-    const isNoSleep = $('#no_sleep').is(':checked');
-    let attacks = [];
+  <p align="center">
+    <map name="FPMap0">
+      <area href="code/index.html" shape="rect" coords="375, 40, 395, 55">
+    </map>
+    
+    <img border="0" src="eikona.jpg" usemap="#FPMap0" width="599" height="399">
+  </p>
 
-    sources.forEach(s => {
-        targets.forEach(t => {
-            const sC = s.match(/(\d+)\|(\d+)/), tC = t.match(/(\d+)\|(\d+)/);
-            if (sC && tC) {
-                const dist = Math.sqrt(Math.pow(sC[1]-tC[1], 2) + Math.pow(sC[2]-tC[2], 2));
-                const lMs = hitTimeMs - (dist * msPerField);
-                const d = new Date(lMs);
-                const lHour = d.getHours();
-                if (!isNoSleep) {
-                    if (sFrom < sTo) { if (lHour >= sFrom && lHour < sTo) return; }
-                    else { if (lHour >= sFrom || lHour < sTo) return; }
-                }
-                const lStr = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2) + " " + ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2);
-                attacks.push({ from: sC[0], to: tC[0], lMs: lMs, lStr: lStr });
-            }
-        });
-    });
+  <p class="warning-text">Απαγορεύεται η είσοδος στους μη έχοντες εργασία...</p>
+  <p class="warning-text">Το κλειδί το εχει ο feng . Ρωτήστε τον...</p>
 
-    attacks.sort((a, b) => a.lMs - b.lMs);
-    let tableHtml = `<table class="vis-table"><tr><th>Από</th><th>Προς</th><th>Εκκίνηση</th></tr>`;
-    let bb = "";
-    attacks.forEach((att) => {
-        tableHtml += `<tr><td>${att.from}</td><td>${att.to}</td><td class="launch-time">${att.lStr}</td></tr>`;
-        bb += `[unit]${unitIcon}[/unit] [coord]${att.from}[/coord] -> [coord]${att.to}[/coord] | [b][color=#ff0000]${att.lStr}[/color][/b]\n`;
-    });
-    $('#results_table').html(tableHtml + "</table>");
-    $('#bbcopy').remove(); $('body').append(`<textarea id="bbcopy" style="display:none;">${bb}</textarea>`);
-    $('#spoiler').show(); $('#copyBtn').show();
-}
+  <p align="center">
+    <script language="JavaScript1.2" type="text/javascript" src="http://pub14.bravenet.com/counter/code.php?id=353084&usernum=1167107938&groupnum=14&cpv=1"></script>
+  </p>
 
-function copyToClipboard() {
-    var c = document.getElementById("bbcopy"); 
-    c.style.display = "block"; c.select(); 
-    document.execCommand("copy"); c.style.display = "none";
-    document.getElementById("copyBtn").innerHTML = "✅ ΑΝΤΙΓΡΑΦΗΚΕ!"; 
-    setTimeout(function(){ document.getElementById("copyBtn").innerHTML = "📑 ΑΝΤΙΓΡΑΦΗ BB-CODE"; }, 2000);
-}
-
-window.onload = function() {
-    var secretKey = "5555"; 
-    var entry = prompt("Κωδικός:");
-    if (entry === secretKey) { document.getElementById("protected-content").style.display = "block"; }
-    else { document.body.innerHTML = '<h1 style="color:red; text-align:center; margin-top:100px;">ΑΠΑΓΟΡΕΥΕΤΑΙ Η ΠΡΟΣΒΑΣΗ</h1>'; }
-};
-</script>
 </body>
 </html>
