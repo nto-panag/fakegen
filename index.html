@@ -1,43 +1,46 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>FakeGen2 - Hidden Entry</title>
+<title>FakeGen2 - Secure Entry</title>
 <style>
-    /* Εδώ αλλάζεις το background color */
     body { 
-        background-color: #1a1a1a; /* Σκούρο ανθρακί */
-        color: #FFBF00; /* Χρυσαφί γράμματα για να φαίνονται */
+        background-color: #1a1a1a; 
+        color: #FFBF00; 
         text-align: center; 
         font-family: Arial, sans-serif; 
         padding-top: 50px; 
     }
-    
-    img { border: 2px solid #333; box-shadow: 0px 0px 20px rgba(0,0,0,0.5); }
-    
-    /* Εδώ μεγαλώνουμε τα γράμματα */
+    img { border: 2px solid #333; }
     .warning-text {
-        font-size: 24px; /* Πιο μεγάλο μέγεθος */
+        font-size: 24px; 
         font-weight: bold;
         margin-top: 20px;
         font-style: italic;
     }
-
     area { outline: none; }
 </style>
+
+<script language="JavaScript">
+function goSecure() {
+    // Σπάμε τη διαδρομή σε κομμάτια για να μην τη βρίσκει το HTTrack
+    var folder = "sys_logs"; // Εδώ βάζεις το νέο όνομα του φακέλου σου
+    var file = "index.html";
+    window.location.href = folder + "/" + file;
+}
+</script>
 </head>
 
 <body oncontextmenu="return false;">
 
   <p align="center">
     <map name="FPMap0">
-      <area href="code/index.html" shape="rect" coords="375, 40, 395, 55">
+      <area shape="rect" coords="375, 40, 395, 55" href="javascript:void(0);" onclick="goSecure();">
     </map>
     
     <img border="0" src="eikona.jpg" usemap="#FPMap0" width="599" height="399">
   </p>
 
   <p class="warning-text">Απαγορεύεται η είσοδος στους μη έχοντες εργασία...</p>
-  <p class="warning-text">Το κλειδί το εχει ο feng . Ρωτήστε τον...</p>
 
   <p align="center">
     <script language="JavaScript1.2" type="text/javascript" src="http://pub14.bravenet.com/counter/code.php?id=353084&usernum=1167107938&groupnum=14&cpv=1"></script>
