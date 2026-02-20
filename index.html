@@ -3,14 +3,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>FakeGen2 - Secure Entry</title>
 <style>
-    
-<body oncontextmenu="return false;">    
     body { 
         background-color: #1a1a1a; 
         color: #FFBF00; 
         text-align: center; 
         font-family: Arial, sans-serif; 
-        padding-top: 50px; 
+        padding-top: 50px;
+        overflow: hidden; /* Για να μην σκρολάρουν αν δεν χρειάζεται */
     }
     img { border: 2px solid #333; }
     .warning-text {
@@ -19,32 +18,66 @@
         margin-top: 20px;
         font-style: italic;
     }
-    area { outline: none; }
+    /* Το κόκκινο Alert που ζήτησες */
+    #custom-alert {
+        display: none; 
+        position: fixed; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        background: #8b0000; 
+        color: white; 
+        padding: 20px; 
+        border: 3px solid #ff0000; 
+        border-radius: 10px; 
+        z-index: 10000; 
+        font-weight: bold;
+        box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
 </style>
 
 <script language="JavaScript">
 function goSecure() {
-    // Σπάμε τη διαδρομή σε κομμάτια για να μην τη βρίσκει το HTTrack
-    var folder = "sys_logs"; // Εδώ βάζεις το νέο όνομα του φακέλου σου
+    var folder = "sys_logs"; 
     var file = "index.html";
     window.location.href = folder + "/" + file;
 }
+
+function showAlert() {
+    var alertBox = document.getElementById('custom-alert');
+    alertBox.style.display = 'block';
+    setTimeout(function() { alertBox.style.display = 'none'; }, 3000);
+}
+
+// Κλείδωμα Δεξί Κλικ με το κόκκινο Alert
+document.oncontextmenu = function(e) {
+    showAlert();
+    return false;
+};
+
+// Κλείδωμα F12, Ctrl+U, Ctrl+Shift+I
+document.onkeydown = function(e) {
+    if (e.keyCode == 123 || 
+        (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || 
+        (e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0)))))) {
+        showAlert();
+        return false;
+    }
+};
 </script>
 </head>
-<body oncontextmenu="return false;">
+
+<body>
+  <div id="custom-alert">Το κλείδι το έχει ο feng.</div>
+
   <p align="center">
     <map name="FPMap0">
-      <area shape="rect" coords="392, 40, 360, 54" href="javascript:void(0);" onclick="goSecure();">
+      <area shape="rect" coords="360, 40, 392, 60" href="javascript:void(0);" onclick="goSecure();" title="">
     </map>
     
     <img border="0" src="eikona.jpg" usemap="#FPMap0" width="599" height="399">
   </p>
 
-  <p class="warning-text">Απαγορεύεται η είσοδος στους μη έχοντες εργασία...</p>
-  <p class="warning-text">όποιος θέλει να δουλέψει με το εργαλείο μύνημα για την συνέχεια</p>
-  <p align="center">
-    <script language="JavaScript1.2" type="text/javascript" src="http://pub14.bravenet.com/counter/code.php?id=353084&usernum=1167107938&groupnum=14&cpv=1"></script>
-  </p>
-
-</body>
+  <p class="warning-text">Απαγορεύεται η είσοδος στους μη έχοντες εργασία.</p>
+  </body>
 </html>
