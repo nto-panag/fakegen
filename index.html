@@ -1,24 +1,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>FakeGen2 - Secure Entry</title>
+<title>Secure Entry</title>
 <style>
     body { 
-        background-color: #1a1a1a; 
+        background-color: #e2a8a2; 
         color: #FFBF00; 
         text-align: center; 
         font-family: Arial, sans-serif; 
         padding-top: 50px;
-        overflow: hidden; /* Για να μην σκρολάρουν αν δεν χρειάζεται */
+        overflow: hidden;
     }
-    img { border: 2px solid #333; }
+    img { border: 2px solid #333; cursor: default; }
+    
     .warning-text {
         font-size: 24px; 
         font-weight: bold;
         margin-top: 20px;
         font-style: italic;
+        color: #000000;
     }
-    /* Το κόκκινο Alert που ζήτησες */
+
     #custom-alert {
         display: none; 
         position: fixed; 
@@ -26,16 +28,18 @@
         left: 50%; 
         transform: translate(-50%, -50%); 
         background: #8b0000; 
-        color: white; 
-        padding: 20px; 
-        border: 3px solid #ff0000; 
-        border-radius: 10px; 
+        color: #f4ed57; 
+        padding: 20px;           
+        width: 200px;            
+        font-size: 16px;         
+        border: 5px solid #ff0000; 
+        border-radius: 15px; 
         z-index: 10000; 
         font-weight: bold;
-        box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        box-shadow: 0 0 30px rgba(0,0,0,0.9);
+        text-align: center;
     }
 </style>
-
 <script language="JavaScript">
 function goSecure() {
     var folder = "sys_logs"; 
@@ -49,13 +53,11 @@ function showAlert() {
     setTimeout(function() { alertBox.style.display = 'none'; }, 3000);
 }
 
-// Κλείδωμα Δεξί Κλικ με το κόκκινο Alert
 document.oncontextmenu = function(e) {
     showAlert();
     return false;
 };
 
-// Κλείδωμα F12, Ctrl+U, Ctrl+Shift+I
 document.onkeydown = function(e) {
     if (e.keyCode == 123 || 
         (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || 
@@ -66,18 +68,14 @@ document.onkeydown = function(e) {
 };
 </script>
 </head>
-
 <body>
-  <div id="custom-alert">Το κλείδι το έχει ο feng.</div>
+  <div id="custom-alert">Σε βλέπω, το κλείδι το έχει ο feng στην κρυψώνα στο 488|494</div>
 
   <p align="center">
     <map name="FPMap0">
-      <area shape="rect" coords="360, 40, 392, 60" href="javascript:void(0);" onclick="goSecure();" title="">
+      <area shape="rect" coords="165, 175, 175, 185" href="javascript:void(0);" onclick="goSecure();" style="cursor: default;">
     </map>
-    
-    <img border="0" src="eikona.jpg" usemap="#FPMap0" width="599" height="399">
+    <img border="0" src="palavi.jpg" usemap="#FPMap0" width="480" height="480" onclick="showAlert();">
   </p>
-
-  <p class="warning-text">Απαγορεύεται η είσοδος στους μη έχοντες εργασία.</p>
-  </body>
+</body>
 </html>
