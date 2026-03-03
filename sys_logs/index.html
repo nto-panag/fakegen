@@ -10,13 +10,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
     <style>
         body { background: #d2c09e; background-image: url('bg-tile.jpg'); background-repeat: repeat; color: #3e2723; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px; font-size: 16px; } 
-        .container { display: none; max-width: 90%; width: 980px; margin: 20px auto; background: rgba(252, 244, 230, 0.96); padding: 15px; border: 2px solid #8b4513; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .container { max-width: 90%; width: 980px; margin: 20px auto; background: rgba(252, 244, 230, 0.96); padding: 15px; border: 2px solid #8b4513; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .header-feng { text-align: center; margin-bottom: 15px; background: #8b4513; color: white; padding: 8px; border-radius: 5px; }
         .header-feng h2 { margin: 0; font-size: 16px; }
         #date_display { text-align: center; font-weight: bold; font-size: 16px; color: #196649; margin-bottom: 15px; }
         .inline-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; border-top: 2px solid #8b4513; padding-top: 10px; font-weight: bold; font-size: 13px; flex-wrap: wrap; justify-content: center; }
         .small-input { width: 35px !important; text-align: center; border: 1px solid #8b4513; }
-        .sleep-select { border: 1px solid #d63384; background: #fff0f5; font-weight: bold; color: #d63384; border-radius: 4px; padding: 2px; }
+        .sleep-select { border: 1px solid #d63384; background: #fff0f5; font-weight: bold; color: #d63384; border-radius: 4px; }
         textarea { width: 100%; height: 250px; border: 1px solid #8b4513; font-family: monospace; font-size: 14px; padding: 10px; box-sizing: border-box; resize: vertical; overflow-y: auto; }
         .btn-calc { background-color: #43b581; color: white; padding: 10px; border: 1px solid #274d32; border-radius: 4px; cursor: pointer; width: 180px; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .btn-copy { background-color: #8b4513; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer; width: 400px; font-weight: bold; margin-top: 8px; display: none; }
@@ -24,20 +24,24 @@
         .vis-table th, .vis-table td { border: 1px solid #7d5d3b; padding: 4px 15px; text-align: center; font-size: 12px; }
         .vis-table th { background: #f4e4bc; }
         .launch-time { color: #ff0000; font-weight: bold; }
+        .footer-gemini { text-align: center; margin-top: 12px; font-size: 10px; font-weight: bold; color: #8b4513; padding-top: 15px; border-top: 1px dashed #8b4513; }
         #custom-alert { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #8b0000; color: white; padding: 20px; border: 3px solid #ff0000; border-radius: 10px; z-index: 10000; font-weight: bold; text-align: center; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
-<div id="custom-alert">Πρόσβαση Περιορισμένη - Security by Feng</div>
+<div id="custom-alert">Τον κώδικα τον εχει ο feng. κρυμένο στο 534|534</div>
 
-<div class="container" id="main_content">
+<div class="container">
     <div class="header-feng">
         <h2>Attact + fake plan by feng for my friends<br>
-        <span style="font-size: 12px; font-weight: normal; opacity: 0.8;">(Security Level: Maximum)</span></h2>
+        <span style="font-size: 12px; font-weight: normal; opacity: 0.8;">(Κώδικας on Shinko to Kuma)</span></h2>
     </div>
     
     <div id="date_display"></div>
+
+    <h2 style="text-align: center; font-size: 14px; color: #5d2e0d; margin-top: 0;">Επικόληση λίστας χωριών από το profil παικτη (Φιλτράρει μόνο συντεταγμένες)</h2>
+    <h2 style="text-align: center; font-size: 14px; color: #5d2e0d; margin-top: 0;">Επικόληση απο <a href="https://forum.fyletikesmaxes.gr/index.php?threads/30012/" target="_blank" style="color: #8b4513; text-decoration: none; font-weight: bold;">Map script</a> ή με το χέρι 6 αριθμούς</h2>
 
     <div class="inline-row">
         <label>Άφιξη:</label>
@@ -49,7 +53,9 @@
             <option value="35">Αριστοκράτης</option>
             <option value="9">Ανιχνευτής</option>
             <option value="11">Βαρύ</option>
+            <option value=>---ΑΜΥΝΤΙΚΕΣ---</option>
             <option value="10">Παλαντίν</option>
+            <option value="11">Βαρύ</option>
             <option value="18">Δόρυ</option>
             <option value="22">Ξίφος</option>
         </select>
@@ -61,54 +67,100 @@
         <label style="background:#fce4ec; padding:2px 8px; border-radius:4px;">
             <label style="color:#d63384;">💤 Ύπνος:</label>
             <select id="sleep_from" class="sleep-select">
-                <option value="23">23:00</option>
-                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="24">24:00</option>
+                <option value="0">00:00</option>
+				<option value="1">01:00</option>
+				<option value="2">02:00</option>
+                <option value="3">03:00</option>
+				<option value="4">04:00</option>
+                <option value="5">05:00</option>
+				<option value="6">06:00</option>
+                <option value="7">07:00</option>
+				<option value="8">08:00</option>
+                <option value="9">09:00</option>
+				<option value="10">10:00</option>
+                <option value="11">11:00</option>
+				<option value="12">12:00</option>
+                <option value="13">13:00</option>
+				<option value="14">14:00</option>
+                <option value="15">15:00</option>
+				<option value="16">16:00</option>
+                <option value="17">17:00</option>
+				<option value="18">18:00</option>
+				<option value="19">19:00</option>
+                <option value="20">20:00</option>
+				<option value="21">21:00</option>
+                <option value="22">22:00</option>
+				<option value="23">23:00</option>
+				<option value="24">24:00</option>
             </select>
             <label>-</label>
             <select id="sleep_to" class="sleep-select">
-                <option value="8">08:00</option>
-                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option><option value="24">24:00</option>
+                <option value="0">00:00</option>
+				<option value="1">01:00</option>
+				<option value="2">02:00</option>
+                <option value="3">03:00</option>
+				<option value="4">04:00</option>
+                <option value="5">05:00</option>
+				<option value="6">06:00</option>
+                <option value="7">07:00</option>
+				<option value="8">08:00</option>
+                <option value="9">09:00</option>
+				<option value="10">10:00</option>
+                <option value="11">11:00</option>
+				<option value="12">12:00</option>
+                <option value="13">13:00</option>
+				<option value="14">14:00</option>
+                <option value="15">15:00</option>
+				<option value="16">16:00</option>
+                <option value="17">17:00</option>
+				<option value="18">18:00</option>
+				<option value="19">19:00</option>
+                <option value="20">20:00</option>
+				<option value="21">21:00</option>
+                <option value="22">22:00</option>
+				<option value="23">23:00</option>
+				<option value="24">24:00</option>
             </select>   
         </label>
 
         <label style="background:#fce4ec; padding:2px 8px; border-radius:4px;">
-            <input type="checkbox" id="sleep_enabled"> <b>Φιλτράρισμα Ύπνου</b>
+            <input type="checkbox" id="no_sleep" checked> <b>Δεν κοιμάμαι</b>
         </label>
     </div>
 
-    <div style="display: flex; gap: 15px; margin: 20px 0;">  
-        <textarea id="sources" oninput="autoCoord(this)" placeholder="Από..."></textarea>
+    <div style="display: flex; gap: 15px; align-items: center; justify-content: center; margin: 20px 0;">  
+        <div style="flex: 1; text-align: right;">
+            <textarea id="sources" oninput="autoCoord(this)" placeholder="Δικά μου χωριά..."></textarea>
+        </div>
+
         <div style="text-align: center; min-width: 150px; padding: 10px; border: 1px dashed #8b4513; border-radius: 8px; background: rgba(139, 69, 19, 0.05);">
             <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 13px;">ΚΟΣΜΟΣ</label>
-            <select id="world_speed" style="width: 100%;" onchange="updateSpeeds(this.value)">
-                <option value="1.6" data-m="0.625" selected>K104</option>
-                <option value="2.0" data-m="0.5">K100</option>
-                <option value="1.0" data-m="1.0">K101</option>
+            <select id="world_speed" style="width: 100%; font-weight: bold; padding: 5px;" onchange="updateSpeeds(this.value)">
+                <option value="1.6" data-m="0.625" selected>K104 (1.6/0.625)</option>
+                <option value="2.0" data-m="0.5">K100 (2.0/0.5)</option>
+                <option value="1.0" data-m="1.0">K101 (1.0/1.0)</option>
+                <option value="1.2" data-m="0.8">K102 (1.2/0.8)</option>
             </select>
         </div>
-        <textarea id="targets" oninput="autoCoord(this)" placeholder="Προς..."></textarea>
+
+        <div style="flex: 1; text-align: left;">
+            <textarea id="targets" oninput="autoCoord(this)" placeholder="Στόχοι..."></textarea>
+        </div>
     </div>
 
     <p align="center">
         <button class="btn-calc" onclick="calculatePlan()">ΦΤΙΑΞΕ ΠΛΑΝΟ</button><br>
-        <button id="copyBtn" class="btn-copy" onclick="copyToClipboard()">📑 ΑΝΤΙΓΡΑΦΗ BB-CODE</button>
+        <button id="copyBtn" class="btn-copy" onclick="copyToClipboard()">📑 ΑΝΤΙΓΡΑΦΗ BB-CODE ταξινομημένα κατά ώρα</button>
     </p>
 
-    <div id="results_table" style="text-align: center;"></div>
+    <div id="results_container" style="text-align: center;">
+        <div id="results_table"></div>
+    </div>
+
+    <div class="footer-gemini">✨ Βοηθάει ο <a href="#" style="color: #8b4513; text-decoration: none;">Gemini 3 AI</a></div>
 </div>
 
 <script>
-// --- SECURITY ---
-(function() {
-    setInterval(function() { debugger; }, 100);
-    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-    if (document.referrer.indexOf("fakegen") === -1 && !isLocal) {
-        document.body.innerHTML = ""; window.location.href = "https://nto-panag.github.io/fakegen/";
-    } else {
-        $(document).ready(function() { $('#main_content').fadeIn(500); });
-    }
-})();
-
 function autoCoord(el) {
     let raw = el.value;
     let processed = raw.replace(/\b(\d{3})(\d{3})\b/g, '$1|$2\n').replace(/[^0-9|\n]/g, '');
@@ -121,7 +173,9 @@ function updateServerTime() {
 }
 setInterval(updateServerTime, 1000);
 
-$(function() { $('#datetimepicker').datetimepicker({ dateFormat: 'dd/mm/yy', timeFormat: 'HH:mm:ss' }).datetimepicker('setDate', new Date()); });
+$(function() { 
+    $('#datetimepicker').datetimepicker({ dateFormat: 'dd/mm/yy', timeFormat: 'HH:mm:ss' }).datetimepicker('setDate', new Date()); 
+});
 
 function calculatePlan() {
     const hitTimeStr = $('#datetimepicker').val();
@@ -133,7 +187,7 @@ function calculatePlan() {
     const msPerField = (unitValue / (parseFloat($('#world_speed').val()) * parseFloat($('#unit_speed').val()))) * 60 * 1000;
     
     const sources = $('#sources').val().trim().split('\n'), targets = $('#targets').val().trim().split('\n');
-    const sFrom = parseInt($('#sleep_from').val()), sTo = parseInt($('#sleep_to').val()), isSleepEnabled = $('#sleep_enabled').is(':checked');
+    const sFrom = parseInt($('#sleep_from').val()), sTo = parseInt($('#sleep_to').val()), isNoSleep = $('#no_sleep').is(':checked');
     let attacks = [];
 
     sources.forEach(s => {
@@ -143,16 +197,11 @@ function calculatePlan() {
                 const dist = Math.sqrt(Math.pow(sC[1]-tC[1], 2) + Math.pow(sC[2]-tC[2], 2));
                 const lMs = hitTimeMs - (dist * msPerField);
                 const d = new Date(lMs);
-                const lHour = d.getHours();
-
-                if (isSleepEnabled) {
-                    if (sFrom < sTo) {
-                        if (lHour >= sFrom && lHour < sTo) return;
-                    } else {
-                        if (lHour >= sFrom || lHour < sTo) return;
-                    }
+                if (!isNoSleep) {
+                    const lHour = d.getHours();
+                    if (sFrom < sTo) { if (lHour >= sFrom && lHour < sTo) return; }
+                    else { if (lHour >= sFrom || lHour < sTo) return; }
                 }
-
                 const lStr = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2) + " " + ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2);
                 attacks.push({ from: sC[0], to: tC[0], lMs: lMs, lStr: lStr });
             }
@@ -160,26 +209,52 @@ function calculatePlan() {
     });
 
     attacks.sort((a, b) => a.lMs - b.lMs);
-    let tableHtml = `<div style="margin:10px; font-weight:bold;">Σύνολο: ${attacks.length}</div><table class="vis-table"><tr><th>Από</th><th>Προς</th><th>Εκκίνηση</th></tr>`;
+
+    let tableHtml = `<div style="font-weight:bold; margin-bottom:5px; font-size:12px;">Σύνολο Εντολών: ${attacks.length}</div><table class="vis-table"><tr><th>Α/Α</th><th>Από</th><th>Προς</th><th>Εκκίνηση</th></tr>`;
     let bb = "";
-    attacks.forEach((att) => {
-        tableHtml += `<tr><td>${att.from}</td><td>${att.to}</td><td class="launch-time">${att.lStr}</td></tr>`;
-        bb += `[unit]${unitIcon}[/unit] [coord]${att.from}[/coord] -> [coord]${att.to}[/coord] | [b]${att.lStr}[/b]\n`;
+    attacks.forEach((att, index) => {
+        tableHtml += `<tr><td>${index + 1}</td><td>${att.from}</td><td>${att.to}</td><td class="launch-time">${att.lStr}</td></tr>`;
+        bb += `${index + 1}. [unit]${unitIcon}[/unit] [coord]${att.from}[/coord] -> [coord]${att.to}[/coord] | [b][color=#ff0000]${att.lStr}[/color][/b]\n`;
     });
+
     $('#results_table').html(tableHtml + "</table>");
-    $('#bbcopy').remove(); $('body').append(`<textarea id="bbcopy" style="display:none;">${bb}</textarea>`);
+    $('#bbcopy').remove(); 
+    $('body').append(`<textarea id="bbcopy" style="display:none;">${bb}</textarea>`);
     $('#copyBtn').show();
 }
+(function() {
+    // Εδώ ορίζουμε τι θεωρείται "τοπικό" (localhost ή άνοιγμα αρχείου από φάκελο)
+    const isLocal = window.location.hostname === "localhost" || 
+                    window.location.hostname === "127.0.0.1" || 
+                    window.location.protocol === "file:";
 
+    const validReferrer = "https://nto-panag.github.io/fakegen/";
+
+    // Η σωστή συνθήκη: 
+    // ΑΝ (ΔΕΝ είναι τοπικά) ΚΑΙ (ο referrer ΔΕΝ περιέχει το σωστό URL)
+    if (!isLocal && document.referrer.indexOf(validReferrer) === -1) {
+        alert("⚠️ Πρόσβαση Μη Εξουσιοδοτημένη!\nΠαρακαλώ ξεκινήστε από την αρχική σελίδα.");
+        window.location.href = validReferrer;
+    }
+})();
 function copyToClipboard() {
-    var c = document.getElementById("bbcopy"); c.style.display = "block"; c.select(); document.execCommand("copy"); c.style.display = "none";
-    $("#copyBtn").text("✅ ΑΝΤΙΓΡΑΦΗΚΕ!"); setTimeout(() => { $("#copyBtn").text("📑 ΑΝΤΙΓΡΑΦΗ BB-CODE"); }, 2000);
+    var c = document.getElementById("bbcopy"); 
+    c.style.display = "block"; c.select(); document.execCommand("copy"); c.style.display = "none";
+    $("#copyBtn").text("✅ ΑΝΤΙΓΡΑΦΗΚΕ!"); 
+    setTimeout(() => { $("#copyBtn").text("📑 ΑΝΤΙΓΡΑΦΗ BB-CODE ταξινομημένα κατά ώρα"); }, 2000);
 }
 
 function updateSpeeds(val) {
     const m = $('#world_speed option:selected').data('m');
-    $('#unit_speed').val(m); $('#unit_speed_display').val(m);
+    $('#unit_speed').val(m);
+    $('#unit_speed_display').val(m);
 }
+
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'TEXTAREA') return true;
+    e.preventDefault();
+    $('#custom-alert').fadeIn().delay(2000).fadeOut();
+});
 </script>
 </body>
 </html>
