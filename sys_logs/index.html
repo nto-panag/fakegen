@@ -12,14 +12,15 @@
         body { background: #d2c09e; background-image: url('bg-tile.jpg'); background-repeat: repeat; color: #3e2723; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px; font-size: 16px; } 
         .container { max-width: 90%; width: 980px; margin: 20px auto; background: rgba(252, 244, 230, 0.96); padding: 15px; border: 2px solid #8b4513; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         
-        /* ΤΟ ΜΕΓΑΛΟ ΚΟΚΚΙΝΟ ΠΛΑΙΣΙΟ ΠΟΥ ΑΝΑΒΟΣΒΗΝΕΙ */
-#big-red-alert { 
-    display: none; /* Ξεκινάει κρυφό */
-    background: #ff0000; color: #fff; padding: 15px; text-align: center; 
-    font-size: 20px; font-weight: bold; border: 4px solid #000; margin-bottom: 15px;
-    animation: blinker 1s linear infinite; 
-}
-        @keyframes blinker { 50% { opacity: 0; } }
+        /* ΔΙΟΡΘΩΜΕΝΟ ALERT ΜΕΣΑ ΣΤΟ CONTAINER */
+        #big-red-alert { 
+            display: none; /* Ξεκινάει κρυφό για να μην πετάγεται στο redirect */
+            background: #ff0000; color: #fff; padding: 10px; text-align: center; 
+            font-size: 18px; font-weight: bold; border: 3px solid #000; 
+            margin-bottom: 15px; border-radius: 5px;
+            animation: blinker 1.5s linear infinite; 
+        }
+        @keyframes blinker { 50% { opacity: 0.2; } }
 
         .header-feng { text-align: center; margin-bottom: 15px; background: #8b4513; color: white; padding: 8px; border-radius: 5px; }
         .header-feng h2 { margin: 0; font-size: 16px; }
@@ -35,21 +36,25 @@
         .vis-table th { background: #f4e4bc; }
         .launch-time { color: #ff0000; font-weight: bold; }
         .footer-gemini { text-align: center; margin-top: 12px; font-size: 10px; font-weight: bold; color: #8b4513; padding-top: 15px; border-top: 1px dashed #8b4513; }
+        #custom-alert { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #8b0000; color: white; padding: 20px; border: 3px solid #ff0000; border-radius: 10px; z-index: 10000; font-weight: bold; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div id="big-red-alert">⚠️ ΤΟ ΣΥΣΤΗΜΑ ΠΑΡΑΚΟΛΟΥΘΕΙΤΑΙ ΑΠΟ ΤΗΝ FENG SECURITY ⚠️</div>
+<div id="custom-alert">Τον κώδικα τον εχει ο feng. κρυμένο στο 534|534</div>
 
 <div class="container">
     <div class="header-feng">
         <h2>Attact + fake plan by feng for my friends<br>
         <span style="font-size: 12px; font-weight: normal; opacity: 0.8;">(Κώδικας on Shinko to Kuma)</span></h2>
     </div>
+
+    <div id="big-red-alert">⚠️ ΤΟ ΣΥΣΤΗΜΑ ΠΑΡΑΚΟΛΟΥΘΕΙΤΑΙ ΑΠΟ ΤΗΝ FENG SECURITY ⚠️</div>
     
     <div id="date_display"></div>
 
     <h2 style="text-align: center; font-size: 14px; color: #5d2e0d; margin-top: 0;">Επικόληση λίστας χωριών από το profil παικτη (Φιλτράρει μόνο συντεταγμένες)</h2>
+    <h2 style="text-align: center; font-size: 14px; color: #5d2e0d; margin-top: 0;">Επικόληση απο <a href="https://forum.fyletikesmaxes.gr/index.php?threads/30012/" target="_blank" style="color: #8b4513; text-decoration: none; font-weight: bold;">Map script</a> ή με το χέρι 6 αριθμούς</h2>
 
     <div class="inline-row">
         <label>Άφιξη:</label>
@@ -61,6 +66,7 @@
             <option value="35">Αριστοκράτης</option>
             <option value="9">Ανιχνευτής</option>
             <option value="11">Βαρύ</option>
+            <option value="disabled" disabled>---ΑΜΥΝΤΙΚΕΣ---</option>
             <option value="10">Παλαντίν</option>
             <option value="18">Δόρυ</option>
             <option value="22">Ξίφος</option>
@@ -73,13 +79,11 @@
         <label style="background:#fce4ec; padding:2px 8px; border-radius:4px;">
             <label style="color:#d63384;">💤 Ύπνος:</label>
             <select id="sleep_from" class="sleep-select">
-                <option value="23">23:00</option>
-                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="24">24:00</option>
+                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23" selected>23:00</option><option value="24">24:00</option>
             </select>
             <label>-</label>
             <select id="sleep_to" class="sleep-select">
-                <option value="8">08:00</option>
-                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option><option value="24">24:00</option>
+                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8" selected>08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option><option value="24">24:00</option>
             </select>   
         </label>
 
@@ -89,29 +93,39 @@
     </div>
 
     <div style="display: flex; gap: 15px; align-items: center; justify-content: center; margin: 20px 0;">  
-        <textarea id="sources" oninput="autoCoord(this)" placeholder="Δικά μου χωριά..."></textarea>
-        <div style="text-align: center; min-width: 150px; padding: 10px; border: 1px dashed #8b4513; border-radius: 8px;">
-            <label style="display: block; font-weight: bold; margin-bottom: 8px;">ΚΟΣΜΟΣ</label>
-            <select id="world_speed" style="width: 100%;" onchange="updateSpeeds(this.value)">
-                <option value="1.6" data-m="0.625" selected>K104</option>
-                <option value="2.0" data-m="0.5">K100</option>
+        <div style="flex: 1; text-align: right;">
+            <textarea id="sources" oninput="autoCoord(this)" placeholder="Δικά μου χωριά..."></textarea>
+        </div>
+
+        <div style="text-align: center; min-width: 150px; padding: 10px; border: 1px dashed #8b4513; border-radius: 8px; background: rgba(139, 69, 19, 0.05);">
+            <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 13px;">ΚΟΣΜΟΣ</label>
+            <select id="world_speed" style="width: 100%; font-weight: bold; padding: 5px;" onchange="updateSpeeds(this.value)">
+                <option value="1.6" data-m="0.625" selected>K104 (1.6/0.625)</option>
+                <option value="2.0" data-m="0.5">K100 (2.0/0.5)</option>
+                <option value="1.0" data-m="1.0">K101 (1.0/1.0)</option>
+                <option value="1.2" data-m="0.8">K102 (1.2/0.8)</option>
             </select>
         </div>
-        <textarea id="targets" oninput="autoCoord(this)" placeholder="Στόχοι..."></textarea>
+
+        <div style="flex: 1; text-align: left;">
+            <textarea id="targets" oninput="autoCoord(this)" placeholder="Στόχοι..."></textarea>
+        </div>
     </div>
 
     <p align="center">
         <button class="btn-calc" onclick="calculatePlan()">ΦΤΙΑΞΕ ΠΛΑΝΟ</button><br>
-        <button id="copyBtn" class="btn-copy" onclick="copyToClipboard()">📑 ΑΝΤΙΓΡΑΦΗ BB-CODE</button>
+        <button id="copyBtn" class="btn-copy" onclick="copyToClipboard()">📑 ΑΝΤΙΓΡΑΦΗ BB-CODE ταξινομημένα κατά ώρα</button>
     </p>
 
-    <div id="results_table"></div>
+    <div id="results_container" style="text-align: center;">
+        <div id="results_table"></div>
+    </div>
 
-    <div class="footer-gemini">✨ Βοηθάει ο Gemini 3 AI</div>
+    <div class="footer-gemini">✨ Βοηθάει ο <a href="#" style="color: #8b4513; text-decoration: none;">Gemini 3 AI</a></div>
 </div>
 
 <script>
-// ΤΟ SCRIPT ΠΡΟΣΤΑΣΙΑΣ
+// ΕΛΕΓΧΟΣ ΠΡΟΣΤΑΣΙΑΣ ΚΑΙ ΕΜΦΑΝΙΣΗΣ ALERT
 (function() {
     const isLocal = window.location.hostname === "localhost" || 
                     window.location.hostname === "127.0.0.1" || 
@@ -121,7 +135,6 @@
     if (!isLocal && document.referrer.indexOf(validReferrer) === -1) {
         window.location.href = validReferrer;
     } else {
-        // ΑΝ ΕΙΝΑΙ ΟΚ, ΤΟΤΕ ΕΜΦΑΝΙΣΕ ΤΟ ΠΛΑΙΣΙΟ
         $(document).ready(function() {
             $('#big-red-alert').show();
         });
@@ -140,7 +153,9 @@ function updateServerTime() {
 }
 setInterval(updateServerTime, 1000);
 
-$(function() { $('#datetimepicker').datetimepicker({ dateFormat: 'dd/mm/yy', timeFormat: 'HH:mm:ss' }).datetimepicker('setDate', new Date()); });
+$(function() { 
+    $('#datetimepicker').datetimepicker({ dateFormat: 'dd/mm/yy', timeFormat: 'HH:mm:ss' }).datetimepicker('setDate', new Date()); 
+});
 
 function calculatePlan() {
     const hitTimeStr = $('#datetimepicker').val();
@@ -174,16 +189,17 @@ function calculatePlan() {
     });
 
     attacks.sort((a, b) => a.lMs - b.lMs);
-    let tableHtml = `<div style=\"font-weight:bold; margin-bottom:5px; font-size:12px;\">Σύνολο Εντολών: ${attacks.length}</div><table class=\"vis-table\"><tr><th>Α/Α</th><th>Από</th><th>Προς</th><th>Εκκίνηση</th></tr>`;
+
+    let tableHtml = `<div style="font-weight:bold; margin-bottom:5px; font-size:12px;">Σύνολο Εντολών: ${attacks.length}</div><table class="vis-table"><tr><th>Α/Α</th><th>Από</th><th>Προς</th><th>Εκκίνηση</th></tr>`;
     let bb = "";
     attacks.forEach((att, index) => {
-        tableHtml += `<tr><td>${index + 1}</td><td>${att.from}</td><td>${att.to}</td><td class=\"launch-time\">${att.lStr}</td></tr>`;
+        tableHtml += `<tr><td>${index + 1}</td><td>${att.from}</td><td>${att.to}</td><td class="launch-time">${att.lStr}</td></tr>`;
         bb += `${index + 1}. [unit]${unitIcon}[/unit] [coord]${att.from}[/coord] -> [coord]${att.to}[/coord] | [b][color=#ff0000]${att.lStr}[/color][/b]\n`;
     });
 
     $('#results_table').html(tableHtml + "</table>");
     $('#bbcopy').remove(); 
-    $('body').append(`<textarea id=\"bbcopy\" style=\"display:none;\">${bb}</textarea>`);
+    $('body').append(`<textarea id="bbcopy" style="display:none;">${bb}</textarea>`);
     $('#copyBtn').show();
 }
 
@@ -191,13 +207,20 @@ function copyToClipboard() {
     var c = document.getElementById("bbcopy"); 
     c.style.display = "block"; c.select(); document.execCommand("copy"); c.style.display = "none";
     $("#copyBtn").text("✅ ΑΝΤΙΓΡΑΦΗΚΕ!"); 
-    setTimeout(() => { $("#copyBtn").text("📑 ΑΝΤΙΓΡΑΦΗ BB-CODE"); }, 2000);
+    setTimeout(() => { $("#copyBtn").text("📑 ΑΝΤΙΓΡΑΦΗ BB-CODE ταξινομημένα κατά ώρα"); }, 2000);
 }
 
 function updateSpeeds(val) {
     const m = $('#world_speed option:selected').data('m');
-    $('#unit_speed').val(m); $('#unit_speed_display').val(m);
+    $('#unit_speed').val(m);
+    $('#unit_speed_display').val(m);
 }
+
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'TEXTAREA') return true;
+    e.preventDefault();
+    $('#custom-alert').fadeIn().delay(2000).fadeOut();
+});
 </script>
 </body>
 </html>
