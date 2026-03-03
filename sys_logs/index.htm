@@ -2,51 +2,198 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <title>System Intrusion Logs - Secure Vault</title>
+    <title>AttPl-Special Edition</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
     <style>
-        body { background-color: #000; color: #0f0; font-family: 'Courier New', Courier, monospace; padding: 20px; font-size: 14px; line-height: 1.5; }
-        .header { border-bottom: 2px solid #0f0; padding-bottom: 10px; margin-bottom: 20px; color: #ff0000; font-weight: bold; }
-        .log-entry { margin-bottom: 5px; border-left: 3px solid #333; padding-left: 10px; }
-        .warning { color: #ff0000; font-weight: bold; animation: blink 1s infinite; }
-        .timestamp { color: #888; }
-        .cmd { color: #fff; }
-        @keyframes blink { 50% { opacity: 0; } }
-        #matrix { position: fixed; bottom: 10px; right: 10px; font-size: 10px; color: #004400; }
+        /* --- CSS STYLE --- */
+        body { background: #d2c09e; background-image: url('bg-tile.jpg'); background-repeat: repeat; color: #3e2723; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px; font-size: 16px; margin: 0; } 
+        .container { display: none; max-width: 90%; width: 980px; margin: 20px auto; background: rgba(252, 244, 230, 0.96); padding: 15px; border: 2px solid #8b4513; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .header-feng { text-align: center; margin-bottom: 15px; background: #8b4513; color: white; padding: 8px; border-radius: 5px; }
+        .header-feng h2 { margin: 0; font-size: 16px; }
+        #date_display { text-align: center; font-weight: bold; font-size: 16px; color: #196649; margin-bottom: 15px; }
+        .inline-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; border-top: 2px solid #8b4513; padding-top: 10px; font-weight: bold; font-size: 13px; flex-wrap: wrap; justify-content: center; }
+        .small-input { width: 35px !important; text-align: center; border: 1px solid #8b4513; }
+        .sleep-select { border: 1px solid #d63384; background: #fff0f5; font-weight: bold; color: #d63384; border-radius: 4px; }
+        textarea { width: 100%; height: 250px; border: 1px solid #8b4513; font-family: monospace; font-size: 14px; padding: 10px; box-sizing: border-box; resize: vertical; overflow-y: auto; }
+        .btn-calc { background-color: #43b581; color: white; padding: 10px; border: 1px solid #274d32; border-radius: 4px; cursor: pointer; width: 180px; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        .btn-copy { background-color: #8b4513; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer; width: 400px; font-weight: bold; margin-top: 8px; display: none; }
+        .vis-table { width: auto; margin: 15px auto; border-collapse: collapse; background: white; }
+        .vis-table th, .vis-table td { border: 1px solid #7d5d3b; padding: 4px 15px; text-align: center; font-size: 12px; }
+        .vis-table th { background: #f4e4bc; }
+        .launch-time { color: #ff0000; font-weight: bold; }
+        .footer-gemini { text-align: center; margin-top: 12px; font-size: 10px; font-weight: bold; color: #8b4513; padding-top: 15px; border-top: 1px dashed #8b4513; }
+        
+        /* ΚΟΚΚΙΝΗ ΟΘΟΝΗ STOP */
+        #access-denied-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, #ff0000, #440000); color: white; z-index: 99999; text-align: center; padding-top: 10%; font-family: 'Arial Black', sans-serif; }
+        #access-denied-screen h1 { font-size: 70px; text-shadow: 5px 5px #000; animation: blinker 1s linear infinite; }
+        .btn-back-home { background: white; color: red; padding: 20px 40px; font-size: 25px; border-radius: 10px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 30px; }
+        @keyframes blinker { 50% { opacity: 0; } }
+        #custom-alert { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #8b0000; color: white; padding: 20px; border: 3px solid #ff0000; border-radius: 10px; z-index: 10000; font-weight: bold; text-align: center; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-<div class="header">
-    [!] CRITICAL SYSTEM LOGS - RESTRICTED ACCESS AREA [!]<br>
-    UNAUTHORIZED ATTEMPTS ARE BEING MONITORED.
+<div id="access-denied-screen">
+    <h1>⚠️ STOP! ⚠️</h1>
+    <p style="font-size: 24px;">ΠΡΟΣΒΑΣΗ ΜΗ ΕΞΟΥΣΙΟΔΟΤΗΜΕΝΗ<br>Πρέπει να περάσεις από την κεντρική πύλη του FENG.</p>
+    <a href="https://nto-panag.github.io/fakegen/" class="btn-back-home">ΕΠΙΣΤΡΟΦΗ ΣΤΟ ROOT</a>
 </div>
 
-<div id="logs">
-    <div class="log-entry"><span class="timestamp">[2026-03-03 06:12:01]</span> <span class="cmd">INIT_SEQUENCE:</span> Firewall active.</div>
-    <div class="log-entry"><span class="timestamp">[2026-03-03 06:15:45]</span> <span class="cmd">ALERT:</span> <span class="warning">DDoS protection triggered.</span> IP range 185.xxx.xxx.xx blocked.</div>
-    <div class="log-entry"><span class="timestamp">[2026-03-03 06:20:12]</span> <span class="cmd">TRACE:</span> Referral violation detected from non-root domain.</div>
-    <div class="log-entry"><span class="timestamp">[2026-03-03 06:22:30]</span> <span class="cmd">INFO:</span> User "fp00000000" flagged for investigation.</div>
-    <div class="log-entry"><span class="timestamp">[2026-03-03 06:25:00]</span> <span class="cmd">LOG:</span> Attempt to bypass DevTools detected. Debugger trap engaged.</div>
-</div>
+<div id="custom-alert">⚠️ Ενέργεια Μη Επιτρεπτή!</div>
 
-<div style="margin-top: 50px; border: 1px dashed #ff0000; padding: 15px; text-align: center;">
-    <p class="warning">⚠️ ACCESS DENIED ⚠️</p>
-    <p>Your IP address has been logged. Cross-referencing with Tribe Wars server logs...</p>
-    <button onclick="window.location.href='https://nto-panag.github.io/fakegen/'" style="background: #ff0000; color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold;">DISCONNECT NOW</button>
-</div>
+<div class="container" id="main_content">
+    <div class="header-feng">
+        <h2>Attact + fake plan by feng for my friends<br>
+        <span style="font-size: 12px; font-weight: normal; opacity: 0.8;">(Security Level: Maximum)</span></h2>
+    </div>
+    
+    <div id="date_display"></div>
 
-<div id="matrix">FENG_SECURITY_V4.2</div>
+    <div class="inline-row">
+        <label>Άφιξη:</label>
+        <input type="text" id="datetimepicker" style="width:130px;" readonly>
+
+        <label>Μονάδα:</label>
+        <select id="unit">
+            <option value="30" selected>Κριός</option>
+            <option value="35">Αριστοκράτης</option>
+            <option value="9">Ανιχνευτής</option>
+            <option value="11">Βαρύ</option>
+            <option value="10">Παλαντίν</option>
+            <option value="18">Δόρυ</option>
+            <option value="22">Ξίφος</option>
+        </select>
+
+        <label>ΤM:</label>
+        <input type="text" id="unit_speed_display" class="small-input" value="0.625" readonly>
+        <input type="hidden" id="unit_speed" value="0.625">
+
+        <label style="background:#fce4ec; padding:2px 8px; border-radius:4px;">
+            <input type="checkbox" id="no_sleep" checked> <b>Δεν κοιμάμαι</b>
+        </label>
+    </div>
+
+    <div style="display: flex; gap: 15px; margin: 20px 0;">  
+        <textarea id="sources" oninput="autoCoord(this)" placeholder="Από..."></textarea>
+        <div style="text-align: center; min-width: 120px; border: 1px dashed #8b4513; border-radius: 8px; background: rgba(139, 69, 19, 0.05); padding: 5px;">
+            <label style="font-weight: bold; font-size: 11px;">ΚΟΣΜΟΣ</label>
+            <select id="world_speed" style="width: 100%;" onchange="updateSpeeds(this.value)">
+                <option value="1.6" data-m="0.625" selected>K104</option>
+                <option value="2.0" data-m="0.5">K100</option>
+                <option value="1.0" data-m="1.0">K101</option>
+            </select>
+        </div>
+        <textarea id="targets" oninput="autoCoord(this)" placeholder="Προς..."></textarea>
+    </div>
+
+    <p align="center">
+        <button class="btn-calc" onclick="calculatePlan()">ΦΤΙΑΞΕ ΠΛΑΝΟ</button><br>
+        <button id="copyBtn" class="btn-copy" onclick="copyToClipboard()">📑 ΑΝΤΙΓΡΑΦΗ BB-CODE</button>
+    </p>
+
+    <div id="results_table" style="text-align: center;"></div>
+    <div class="footer-gemini">✨ Βοηθάει ο Gemini 3 AI</div>
+</div>
 
 <script>
-    // Μπλοκάρουμε και εδώ το δεξί κλικ και το F12 για να τον "ψήσουμε" ότι είναι σοβαρό
-    document.onkeydown = function(e) { if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false; };
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    
-    // Ψεύτικο "hacking" εφέ στην κονσόλα αν την ανοίξει
-    console.log("%cSTOP! SYSTEM INTRUSION DETECTED", "color: red; font-size: 30px; font-weight: bold;");
-    console.log("Tracing IP... 100%");
-    console.log("Identity linked to Discord: fp00000000");
-</script>
+// --- SECURITY SYSTEM ---
+(function() {
+    // 1. Debugger Trap: "Παγώνει" τα DevTools αν ανοίξουν
+    setInterval(function() { debugger; }, 100);
 
+    const vR = "https://nto-panag.github.io/fakegen/";
+    const isL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    const uA = navigator.userAgent.toLowerCase();
+    const isB = uA.includes("httrack") || uA.includes("wget") || uA.includes("spider");
+
+    if ((document.referrer.indexOf(vR) === -1 && !isL) || isB) {
+        document.body.innerHTML = ""; // Διαγραφή των πάντων από το DOM
+        window.location.href = vR;
+    } else {
+        $(document).ready(function() { $('#main_content').fadeIn(500); });
+    }
+})();
+
+// Μπλοκάρισμα F12, Ctrl+U, Ctrl+Shift+I
+document.onkeydown = function(e) {
+    if (e.keyCode == 123 || (e.ctrlKey && (e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67))) || (e.ctrlKey && e.keyCode == 85)) {
+        $('#custom-alert').fadeIn().delay(1000).fadeOut();
+        return false;
+    }
+};
+
+// Ειδικός έλεγχος δεξιού κλικ
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        $('#custom-alert').fadeIn().delay(1000).fadeOut();
+    }
+}, false);
+
+function autoCoord(el) {
+    let raw = el.value;
+    let processed = raw.replace(/\b(\d{3})(\d{3})\b/g, '$1|$2\n').replace(/[^0-9|\n]/g, '');
+    if (raw !== processed) el.value = processed;
+}
+
+function updateServerTime() {
+    var t = new Date();
+    document.getElementById('date_display').innerHTML = "Ώρα server: " + ("0" + t.getHours()).slice(-2) + ":" + ("0" + t.getMinutes()).slice(-2) + ":" + ("0" + t.getSeconds()).slice(-2);
+}
+setInterval(updateServerTime, 1000);
+
+$(function() { $('#datetimepicker').datetimepicker({ dateFormat: 'dd/mm/yy', timeFormat: 'HH:mm:ss' }).datetimepicker('setDate', new Date()); });
+
+function calculatePlan() {
+    const hitTimeStr = $('#datetimepicker').val();
+    const parts = hitTimeStr.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/);
+    const hitTimeMs = new Date(parts[3], parts[2]-1, parts[1], parts[4], parts[5], parts[6]).getTime();
+    
+    const unitValue = parseFloat($('#unit').val());
+    const unitIcon = unitValue === 9 ? "spy" : (unitValue === 35 ? "snob" : (unitValue === 10 ? "knight" : (unitValue === 11 ? "heavy" : (unitValue === 18 ? "spear" : (unitValue === 22 ? "sword" : "ram")))));    
+    const msPerField = (unitValue / (parseFloat($('#world_speed').val()) * parseFloat($('#unit_speed').val()))) * 60 * 1000;
+    
+    const sources = $('#sources').val().trim().split('\n'), targets = $('#targets').val().trim().split('\n');
+    let attacks = [];
+
+    sources.forEach(s => {
+        targets.forEach(t => {
+            const sC = s.match(/(\d+)\|(\d+)/), tC = t.match(/(\d+)\|(\d+)/);
+            if (sC && tC) {
+                const dist = Math.sqrt(Math.pow(sC[1]-tC[1], 2) + Math.pow(sC[2]-tC[2], 2));
+                const lMs = hitTimeMs - (dist * msPerField);
+                const d = new Date(lMs);
+                const lStr = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2) + " " + ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2);
+                attacks.push({ from: sC[0], to: tC[0], lMs: lMs, lStr: lStr });
+            }
+        });
+    });
+
+    attacks.sort((a, b) => a.lMs - b.lMs);
+    let tableHtml = `<table class="vis-table"><tr><th>Από</th><th>Προς</th><th>Εκκίνηση</th></tr>`;
+    let bb = "";
+    attacks.forEach((att) => {
+        tableHtml += `<tr><td>${att.from}</td><td>${att.to}</td><td class="launch-time">${att.lStr}</td></tr>`;
+        bb += `[unit]${unitIcon}[/unit] [coord]${att.from}[/coord] -> [coord]${att.to}[/coord] | [b][color=#ff0000]${att.lStr}[/color][/b]\n`;
+    });
+    $('#results_table').html(tableHtml + "</table>");
+    $('#bbcopy').remove(); $('body').append(`<textarea id="bbcopy" style="display:none;">${bb}</textarea>`);
+    $('#copyBtn').show();
+}
+
+function copyToClipboard() {
+    var c = document.getElementById("bbcopy"); c.style.display = "block"; c.select(); document.execCommand("copy"); c.style.display = "none";
+    $("#copyBtn").text("✅ ΑΝΤΙΓΡΑΦΗΚΕ!"); setTimeout(() => { $("#copyBtn").text("📑 ΑΝΤΙΓΡΑΦΗ BB-CODE"); }, 2000);
+}
+
+function updateSpeeds(val) {
+    const m = $('#world_speed option:selected').data('m');
+    $('#unit_speed').val(m); $('#unit_speed_display').val(m);
+}
+</script>
 </body>
 </html>
