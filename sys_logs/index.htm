@@ -9,8 +9,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
     <style>
-        /* --- CSS STYLE --- */
-        body { background: #d2c09e; background-image: url('bg-tile.jpg'); background-repeat: repeat; color: #3e2723; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px; font-size: 16px; margin: 0; } 
+        body { background: #d2c09e; background-image: url('bg-tile.jpg'); background-repeat: repeat; color: #3e2723; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px; font-size: 16px; } 
         .container { display: none; max-width: 90%; width: 980px; margin: 20px auto; background: rgba(252, 244, 230, 0.96); padding: 15px; border: 2px solid #8b4513; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .header-feng { text-align: center; margin-bottom: 15px; background: #8b4513; color: white; padding: 8px; border-radius: 5px; }
         .header-feng h2 { margin: 0; font-size: 16px; }
@@ -26,24 +25,12 @@
         .vis-table th { background: #f4e4bc; }
         .launch-time { color: #ff0000; font-weight: bold; }
         .footer-gemini { text-align: center; margin-top: 12px; font-size: 10px; font-weight: bold; color: #8b4513; padding-top: 15px; border-top: 1px dashed #8b4513; }
-        
-        /* ΚΟΚΚΙΝΗ ΟΘΟΝΗ STOP */
-        #access-denied-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, #ff0000, #440000); color: white; z-index: 99999; text-align: center; padding-top: 10%; font-family: 'Arial Black', sans-serif; }
-        #access-denied-screen h1 { font-size: 70px; text-shadow: 5px 5px #000; animation: blinker 1s linear infinite; }
-        .btn-back-home { background: white; color: red; padding: 20px 40px; font-size: 25px; border-radius: 10px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 30px; }
-        @keyframes blinker { 50% { opacity: 0; } }
         #custom-alert { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #8b0000; color: white; padding: 20px; border: 3px solid #ff0000; border-radius: 10px; z-index: 10000; font-weight: bold; text-align: center; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-<div id="access-denied-screen">
-    <h1>⚠️ STOP! ⚠️</h1>
-    <p style="font-size: 24px;">ΠΡΟΣΒΑΣΗ ΜΗ ΕΞΟΥΣΙΟΔΟΤΗΜΕΝΗ<br>Πρέπει να περάσεις από την κεντρική πύλη του FENG.</p>
-    <a href="https://nto-panag.github.io/fakegen/" class="btn-back-home">ΕΠΙΣΤΡΟΦΗ ΣΤΟ ROOT</a>
-</div>
-
-<div id="custom-alert">⚠️ Ενέργεια Μη Επιτρεπτή!</div>
+<div id="custom-alert">Πρόσβαση Περιορισμένη - Security by Feng</div>
 
 <div class="container" id="main_content">
     <div class="header-feng">
@@ -73,14 +60,25 @@
         <input type="hidden" id="unit_speed" value="0.625">
 
         <label style="background:#fce4ec; padding:2px 8px; border-radius:4px;">
+            <label style="color:#d63384;">💤 Ύπνος:</label>
+            <select id="sleep_from" class="sleep-select">
+                <script>for(let i=0;i<=24;i++) document.write(`<option value="${i}">${(i<10?'0':'')+i}:00</option>`);</script>
+            </select>
+            <label>-</label>
+            <select id="sleep_to" class="sleep-select">
+                <script>for(let i=0;i<=24;i++) document.write(`<option value="${i}">${(i<10?'0':'')+i}:00</option>`);</script>
+            </select>   
+        </label>
+
+        <label style="background:#fce4ec; padding:2px 8px; border-radius:4px;">
             <input type="checkbox" id="no_sleep" checked> <b>Δεν κοιμάμαι</b>
         </label>
     </div>
 
     <div style="display: flex; gap: 15px; margin: 20px 0;">  
         <textarea id="sources" oninput="autoCoord(this)" placeholder="Από..."></textarea>
-        <div style="text-align: center; min-width: 120px; border: 1px dashed #8b4513; border-radius: 8px; background: rgba(139, 69, 19, 0.05); padding: 5px;">
-            <label style="font-weight: bold; font-size: 11px;">ΚΟΣΜΟΣ</label>
+        <div style="text-align: center; min-width: 150px; padding: 10px; border: 1px dashed #8b4513; border-radius: 8px; background: rgba(139, 69, 19, 0.05);">
+            <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 13px;">ΚΟΣΜΟΣ</label>
             <select id="world_speed" style="width: 100%;" onchange="updateSpeeds(this.value)">
                 <option value="1.6" data-m="0.625" selected>K104</option>
                 <option value="2.0" data-m="0.5">K100</option>
@@ -100,38 +98,23 @@
 </div>
 
 <script>
-// --- SECURITY SYSTEM ---
+// --- SECURITY ---
 (function() {
-    // 1. Debugger Trap: "Παγώνει" τα DevTools αν ανοίξουν
     setInterval(function() { debugger; }, 100);
-
     const vR = "https://nto-panag.github.io/fakegen/";
-    const isL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-    const uA = navigator.userAgent.toLowerCase();
-    const isB = uA.includes("httrack") || uA.includes("wget") || uA.includes("spider");
-
-    if ((document.referrer.indexOf(vR) === -1 && !isL) || isB) {
-        document.body.innerHTML = ""; // Διαγραφή των πάντων από το DOM
-        window.location.href = vR;
+    if (document.referrer.indexOf(vR) === -1 && window.location.hostname !== "localhost") {
+        document.body.innerHTML = ""; window.location.href = vR;
     } else {
         $(document).ready(function() { $('#main_content').fadeIn(500); });
     }
 })();
 
-// Μπλοκάρισμα F12, Ctrl+U, Ctrl+Shift+I
 document.onkeydown = function(e) {
-    if (e.keyCode == 123 || (e.ctrlKey && (e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67))) || (e.ctrlKey && e.keyCode == 85)) {
-        $('#custom-alert').fadeIn().delay(1000).fadeOut();
-        return false;
-    }
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 85))) return false;
 };
 
-// Ειδικός έλεγχος δεξιού κλικ
 document.addEventListener('contextmenu', function(e) {
-    if (e.target.tagName !== 'TEXTAREA') {
-        e.preventDefault();
-        $('#custom-alert').fadeIn().delay(1000).fadeOut();
-    }
+    if (e.target.tagName !== 'TEXTAREA') { e.preventDefault(); $('#custom-alert').fadeIn().delay(1000).fadeOut(); }
 }, false);
 
 function autoCoord(el) {
@@ -158,6 +141,7 @@ function calculatePlan() {
     const msPerField = (unitValue / (parseFloat($('#world_speed').val()) * parseFloat($('#unit_speed').val()))) * 60 * 1000;
     
     const sources = $('#sources').val().trim().split('\n'), targets = $('#targets').val().trim().split('\n');
+    const sFrom = parseInt($('#sleep_from').val()), sTo = parseInt($('#sleep_to').val()), isNoSleep = $('#no_sleep').is(':checked');
     let attacks = [];
 
     sources.forEach(s => {
@@ -167,6 +151,11 @@ function calculatePlan() {
                 const dist = Math.sqrt(Math.pow(sC[1]-tC[1], 2) + Math.pow(sC[2]-tC[2], 2));
                 const lMs = hitTimeMs - (dist * msPerField);
                 const d = new Date(lMs);
+                if (!isNoSleep) {
+                    const lHour = d.getHours();
+                    if (sFrom < sTo) { if (lHour >= sFrom && lHour < sTo) return; }
+                    else { if (lHour >= sFrom || lHour < sTo) return; }
+                }
                 const lStr = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2) + " " + ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2);
                 attacks.push({ from: sC[0], to: tC[0], lMs: lMs, lStr: lStr });
             }
@@ -178,7 +167,7 @@ function calculatePlan() {
     let bb = "";
     attacks.forEach((att) => {
         tableHtml += `<tr><td>${att.from}</td><td>${att.to}</td><td class="launch-time">${att.lStr}</td></tr>`;
-        bb += `[unit]${unitIcon}[/unit] [coord]${att.from}[/coord] -> [coord]${att.to}[/coord] | [b][color=#ff0000]${att.lStr}[/color][/b]\n`;
+        bb += `[unit]${unitIcon}[/unit] [coord]${att.from}[/coord] -> [coord]${att.to}[/coord] | [b]${att.lStr}[/b]\n`;
     });
     $('#results_table').html(tableHtml + "</table>");
     $('#bbcopy').remove(); $('body').append(`<textarea id="bbcopy" style="display:none;">${bb}</textarea>`);
