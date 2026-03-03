@@ -16,7 +16,7 @@
         #date_display { text-align: center; font-weight: bold; font-size: 16px; color: #196649; margin-bottom: 15px; }
         .inline-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; border-top: 2px solid #8b4513; padding-top: 10px; font-weight: bold; font-size: 13px; flex-wrap: wrap; justify-content: center; }
         .small-input { width: 35px !important; text-align: center; border: 1px solid #8b4513; }
-        .sleep-select { border: 1px solid #d63384; background: #fff0f5; font-weight: bold; color: #d63384; border-radius: 4px; }
+        .sleep-select { border: 1px solid #d63384; background: #fff0f5; font-weight: bold; color: #d63384; border-radius: 4px; padding: 2px; }
         textarea { width: 100%; height: 250px; border: 1px solid #8b4513; font-family: monospace; font-size: 14px; padding: 10px; box-sizing: border-box; resize: vertical; overflow-y: auto; }
         .btn-calc { background-color: #43b581; color: white; padding: 10px; border: 1px solid #274d32; border-radius: 4px; cursor: pointer; width: 180px; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .btn-copy { background-color: #8b4513; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer; width: 400px; font-weight: bold; margin-top: 8px; display: none; }
@@ -24,7 +24,6 @@
         .vis-table th, .vis-table td { border: 1px solid #7d5d3b; padding: 4px 15px; text-align: center; font-size: 12px; }
         .vis-table th { background: #f4e4bc; }
         .launch-time { color: #ff0000; font-weight: bold; }
-        .footer-gemini { text-align: center; margin-top: 12px; font-size: 10px; font-weight: bold; color: #8b4513; padding-top: 15px; border-top: 1px dashed #8b4513; }
         #custom-alert { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #8b0000; color: white; padding: 20px; border: 3px solid #ff0000; border-radius: 10px; z-index: 10000; font-weight: bold; text-align: center; }
     </style>
 </head>
@@ -62,16 +61,18 @@
         <label style="background:#fce4ec; padding:2px 8px; border-radius:4px;">
             <label style="color:#d63384;">💤 Ύπνος:</label>
             <select id="sleep_from" class="sleep-select">
-                <script>for(let i=0;i<=24;i++) document.write(`<option value="${i}">${(i<10?'0':'')+i}:00</option>`);</script>
+                <option value="23">23:00</option>
+                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="24">24:00</option>
             </select>
             <label>-</label>
             <select id="sleep_to" class="sleep-select">
-                <script>for(let i=0;i<=24;i++) document.write(`<option value="${i}">${(i<10?'0':'')+i}:00</option>`);</script>
+                <option value="8">08:00</option>
+                <option value="0">00:00</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="9">09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option><option value="24">24:00</option>
             </select>   
         </label>
 
         <label style="background:#fce4ec; padding:2px 8px; border-radius:4px;">
-            <input type="checkbox" id="no_sleep" checked> <b>Δεν κοιμάμαι</b>
+            <input type="checkbox" id="sleep_enabled"> <b>Φιλτράρισμα Ύπνου</b>
         </label>
     </div>
 
@@ -94,28 +95,19 @@
     </p>
 
     <div id="results_table" style="text-align: center;"></div>
-    <div class="footer-gemini">✨ Βοηθάει ο Gemini 3 AI</div>
 </div>
 
 <script>
 // --- SECURITY ---
 (function() {
     setInterval(function() { debugger; }, 100);
-    const vR = "https://nto-panag.github.io/fakegen/";
-    if (document.referrer.indexOf(vR) === -1 && window.location.hostname !== "localhost") {
-        document.body.innerHTML = ""; window.location.href = vR;
+    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    if (document.referrer.indexOf("fakegen") === -1 && !isLocal) {
+        document.body.innerHTML = ""; window.location.href = "https://nto-panag.github.io/fakegen/";
     } else {
         $(document).ready(function() { $('#main_content').fadeIn(500); });
     }
 })();
-
-document.onkeydown = function(e) {
-    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 85))) return false;
-};
-
-document.addEventListener('contextmenu', function(e) {
-    if (e.target.tagName !== 'TEXTAREA') { e.preventDefault(); $('#custom-alert').fadeIn().delay(1000).fadeOut(); }
-}, false);
 
 function autoCoord(el) {
     let raw = el.value;
@@ -141,7 +133,7 @@ function calculatePlan() {
     const msPerField = (unitValue / (parseFloat($('#world_speed').val()) * parseFloat($('#unit_speed').val()))) * 60 * 1000;
     
     const sources = $('#sources').val().trim().split('\n'), targets = $('#targets').val().trim().split('\n');
-    const sFrom = parseInt($('#sleep_from').val()), sTo = parseInt($('#sleep_to').val()), isNoSleep = $('#no_sleep').is(':checked');
+    const sFrom = parseInt($('#sleep_from').val()), sTo = parseInt($('#sleep_to').val()), isSleepEnabled = $('#sleep_enabled').is(':checked');
     let attacks = [];
 
     sources.forEach(s => {
@@ -151,11 +143,16 @@ function calculatePlan() {
                 const dist = Math.sqrt(Math.pow(sC[1]-tC[1], 2) + Math.pow(sC[2]-tC[2], 2));
                 const lMs = hitTimeMs - (dist * msPerField);
                 const d = new Date(lMs);
-                if (!isNoSleep) {
-                    const lHour = d.getHours();
-                    if (sFrom < sTo) { if (lHour >= sFrom && lHour < sTo) return; }
-                    else { if (lHour >= sFrom || lHour < sTo) return; }
+                const lHour = d.getHours();
+
+                if (isSleepEnabled) {
+                    if (sFrom < sTo) {
+                        if (lHour >= sFrom && lHour < sTo) return;
+                    } else {
+                        if (lHour >= sFrom || lHour < sTo) return;
+                    }
                 }
+
                 const lStr = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2) + " " + ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2);
                 attacks.push({ from: sC[0], to: tC[0], lMs: lMs, lStr: lStr });
             }
@@ -163,7 +160,7 @@ function calculatePlan() {
     });
 
     attacks.sort((a, b) => a.lMs - b.lMs);
-    let tableHtml = `<table class="vis-table"><tr><th>Από</th><th>Προς</th><th>Εκκίνηση</th></tr>`;
+    let tableHtml = `<div style="margin:10px; font-weight:bold;">Σύνολο: ${attacks.length}</div><table class="vis-table"><tr><th>Από</th><th>Προς</th><th>Εκκίνηση</th></tr>`;
     let bb = "";
     attacks.forEach((att) => {
         tableHtml += `<tr><td>${att.from}</td><td>${att.to}</td><td class="launch-time">${att.lStr}</td></tr>`;
