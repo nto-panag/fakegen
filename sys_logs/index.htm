@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>System Intrusion Logs - Secure Vault</title>
+    <style>
+        body { background-color: #000; color: #0f0; font-family: 'Courier New', Courier, monospace; padding: 20px; font-size: 14px; line-height: 1.5; }
+        .header { border-bottom: 2px solid #0f0; padding-bottom: 10px; margin-bottom: 20px; color: #ff0000; font-weight: bold; }
+        .log-entry { margin-bottom: 5px; border-left: 3px solid #333; padding-left: 10px; }
+        .warning { color: #ff0000; font-weight: bold; animation: blink 1s infinite; }
+        .timestamp { color: #888; }
+        .cmd { color: #fff; }
+        @keyframes blink { 50% { opacity: 0; } }
+        #matrix { position: fixed; bottom: 10px; right: 10px; font-size: 10px; color: #004400; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    [!] CRITICAL SYSTEM LOGS - RESTRICTED ACCESS AREA [!]<br>
+    UNAUTHORIZED ATTEMPTS ARE BEING MONITORED.
+</div>
+
+<div id="logs">
+    <div class="log-entry"><span class="timestamp">[2026-03-03 06:12:01]</span> <span class="cmd">INIT_SEQUENCE:</span> Firewall active.</div>
+    <div class="log-entry"><span class="timestamp">[2026-03-03 06:15:45]</span> <span class="cmd">ALERT:</span> <span class="warning">DDoS protection triggered.</span> IP range 185.xxx.xxx.xx blocked.</div>
+    <div class="log-entry"><span class="timestamp">[2026-03-03 06:20:12]</span> <span class="cmd">TRACE:</span> Referral violation detected from non-root domain.</div>
+    <div class="log-entry"><span class="timestamp">[2026-03-03 06:22:30]</span> <span class="cmd">INFO:</span> User "fp00000000" flagged for investigation.</div>
+    <div class="log-entry"><span class="timestamp">[2026-03-03 06:25:00]</span> <span class="cmd">LOG:</span> Attempt to bypass DevTools detected. Debugger trap engaged.</div>
+</div>
+
+<div style="margin-top: 50px; border: 1px dashed #ff0000; padding: 15px; text-align: center;">
+    <p class="warning">⚠️ ACCESS DENIED ⚠️</p>
+    <p>Your IP address has been logged. Cross-referencing with Tribe Wars server logs...</p>
+    <button onclick="window.location.href='https://nto-panag.github.io/fakegen/'" style="background: #ff0000; color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold;">DISCONNECT NOW</button>
+</div>
+
+<div id="matrix">FENG_SECURITY_V4.2</div>
+
+<script>
+    // Μπλοκάρουμε και εδώ το δεξί κλικ και το F12 για να τον "ψήσουμε" ότι είναι σοβαρό
+    document.onkeydown = function(e) { if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false; };
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    
+    // Ψεύτικο "hacking" εφέ στην κονσόλα αν την ανοίξει
+    console.log("%cSTOP! SYSTEM INTRUSION DETECTED", "color: red; font-size: 30px; font-weight: bold;");
+    console.log("Tracing IP... 100%");
+    console.log("Identity linked to Discord: fp00000000");
+</script>
+
+</body>
+</html>
