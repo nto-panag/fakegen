@@ -140,11 +140,16 @@
 })();
 
 function autoCoord(el) {
-    let raw = el.value;
-    let processed = raw.replace(/\b(\d{3})(\d{3})\b/g, '$1|$2\n').replace(/[^0-9|\n]/g, '');
-    if (raw !== processed) el.value = processed;
-}
+    let lines = el.value.split(/\n|\r/);
+    let out = [];
 
+    lines.forEach(l => {
+        let m = l.match(/(\d{3})\D*(\d{3})/);
+        if (m) out.push(m[1] + "|" + m[2]);
+    });
+
+    el.value = out.join("\n");
+}
 function updateServerTime() {
     var t = new Date();
     document.getElementById('date_display').innerHTML = "Ώρα server: " + ("0" + t.getHours()).slice(-2) + ":" + ("0" + t.getMinutes()).slice(-2) + ":" + ("0" + t.getSeconds()).slice(-2);
